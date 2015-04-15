@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/PGMImage.cpp \
+../src/Sorting.cpp \
 ../src/main.cpp 
 
 OBJS += \
 ./src/PGMImage.o \
+./src/Sorting.o \
 ./src/main.o 
 
 CPP_DEPS += \
 ./src/PGMImage.d \
+./src/Sorting.d \
 ./src/main.d 
 
 

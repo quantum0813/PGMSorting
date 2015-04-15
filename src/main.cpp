@@ -1,19 +1,14 @@
 #include <iostream>
+#include <limits.h>
+#include <cstdlib>
+#include <ctime>
 #include "PGMImage.hpp"
+#include "Sorting.hpp"
 
 int main() {
 	PGMImage image = PGMImage("Buchtel.pgm");
 	std::cout << "The image has " << image.getNumRows() << " rows" << std::endl;
 	std::cout << "The image has " << image.getNumCols() << " columns" << std::endl;
-
-	for (int i = 0; i < image.getNumRows() * image.getNumCols(); i++) {
-		if (i % 20 == 0) {
-			cout << endl;
-			cout << image.getData()[i] << " ";
-		} else {
-			cout << image.getData()[i] << " ";
-		}
-	}
 
 	PGMImage::PGMHeader header;
 	header.magic = "P2";
@@ -37,4 +32,18 @@ int main() {
 	}
 
 	PGMImage::writePGM("test.pgm", header, image.getData());
+
+	// Test of radix sort
+	int arr[50];
+	srand(time(NULL));
+	for (int i = 0; i < 50; i++)
+		arr[i] = (rand() % 1000) + 1;
+
+	std::clock_t start = std::clock();
+	Sorting::radixSort(arr, 50);
+	std::clock_t end = std::clock();
+	cout << "Radix sort of 50 random numbers took: " << (end - start) / (double)(CLOCKS_PER_SEC / 1000) << "ms" << endl;
+
+	for (int i = 0; i < 50; i++)
+		cout << arr[i] << " ";
 }
