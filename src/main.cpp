@@ -2,11 +2,40 @@
 #include <limits.h>
 #include <cstdlib>
 #include <ctime>
+#include <cstring>
 #include "PGMImage.hpp"
 #include "Sorting.hpp"
 
-int main() {
-	PGMImage image = PGMImage("Buchtel.pgm");
+bool isNumeric(const char * str);
+
+int main(int argc, char * argv[]) {
+	int windowSize = 3;
+	std::string filename = "Buchtel.pgm";
+
+	if (argc != 3) {
+		// There should be exactly 3 parameters
+		// argv[0] - Application path
+		// argv[1] - Window size
+		// argv[2] - Input image file
+		std::cout << "Error: Invalid arguments!" << std::endl;
+		std::cout << "Usage: Sorting 5 \"/path/to/image/image.pgm\"" << std::endl;
+		return 0;
+	}
+
+	if (!isNumeric(argv[1])) {
+		std::cout << "Error: Argument 2 must be a number" << std::endl;
+		return 0;
+	}
+
+	windowSize = atoi(argv[1]);
+	filename = string(argv[2]);
+
+	if (windowSize % 2 == 0) {
+		std::cout << "Error: Window size must be an odd number" << std::endl;
+		return 0;
+	}
+
+	PGMImage image = PGMImage(filename);
 	std::cout << "The image has " << image.getNumRows() << " rows" << std::endl;
 	std::cout << "The image has " << image.getNumCols() << " columns" << std::endl;
 
@@ -44,8 +73,14 @@ int main() {
 	std::clock_t start = std::clock();
 	Sorting::radixSort(arr, 50);
 	std::clock_t end = std::clock();
-	cout << "Radix sort of 50 random numbers took: " << (end - start) / (double)(CLOCKS_PER_SEC / 1000) << "ms" << endl;
+	std::cout << "Radix sort of 50 random numbers took: " << (end - start) / (double)(CLOCKS_PER_SEC / 1000) << "ms" << std::endl;
+}
 
-	for (int i = 0; i < 50; i++)
-		cout << arr[i] << " ";
+bool isNumeric(const char * str) {
+	int len = strlen(str);
+	for (int i = 0; i < len; i++) {
+		if (!isdigit(str[i]))
+			return false;
+	}
+	return true;
 }
