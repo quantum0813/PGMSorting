@@ -20,13 +20,17 @@ PGMImage::PGMImage(std::string path) : mNumRows(0), mNumCols(0) {
 	// Read the header
 	readHeader(in);
 
-	int numPixels = mNumRows * mNumCols;
-	mData = new int[numPixels];
+	//int numPixels = mNumRows * mNumCols;
+	mData = new int*[mNumRows];
+	for (int i = 0; i < mNumRows; i++)
+		mData[i] = new int[mNumCols];
 
-	for (int i = 0; i < numPixels; i++) {
-		in >> mData[i];
-		if (in.eof())
-			return;
+	for (int i = 0; i < mNumRows; i++) {
+		for (int j = 0; j < mNumCols; j++) {
+			in >> mData[i][j];
+			if (in.eof())
+				return;
+		}
 	}
 
 	in.close();
@@ -131,11 +135,13 @@ void PGMImage::readHeader(ifstream & fileIn) {
 	}
 }
 
-int * PGMImage::getData() {
+int ** PGMImage::getData() {
 	return mData;
 }
 
 PGMImage::~PGMImage() {
+	for (int i = 0; i < mNumRows; i++)
+		delete [] mData[i];
 	delete [] mData;
 }
 
@@ -151,7 +157,7 @@ int PGMImage::getMaxGrayVal() {
 	return mMaxGrayVal;
 }
 
-void PGMImage::writePGM(std::string filename, PGMHeader header, int * data) {
+void PGMImage::writePGM(std::string filename, PGMHeader header, int ** data, int numRows, int numCols) {
 	ofstream outFile;
 
 	outFile.open(filename.c_str());
@@ -163,7 +169,7 @@ void PGMImage::writePGM(std::string filename, PGMHeader header, int * data) {
 	writeHeader(outFile, filename, header);
 
 	// Now write the data
-	writeData(outFile, header, data);
+	writeData(outFile, header, data, numRows, numCols);
 
 	outFile.close();
 }
@@ -175,16 +181,19 @@ void PGMImage::writeHeader(ofstream & outFile, string & filename, PGMHeader & he
 	outFile << header.maxGrayVal << "\n";
 }
 
-void PGMImage::writeData(ofstream & outFile, PGMHeader & header, int * data) {
-	int numPixels = header.numRows * header.numCols;
-	for (int i = 0; i < numPixels; i++) {
-		// 16 pixel values per line
-		if (i % 16 == 0 && i != 0) {
-			outFile << data[i] << "\n";
-		} else if (i == numPixels - 1) {
-			outFile << data[i];
-		} else {
-			outFile << data[i] << " ";
+void PGMImage::writeData(ofstream & outFile, PGMHeader & header, int ** data, int numRows, int numCols) {
+	int count = 0;
+	for (int i = 0; i < numRows; i++) {
+		for (int j = 0; j < numCols; j++, count++) {
+			// 40 pixel values per line so that we don't have really long lines
+			if (count == 40) {
+				outFile << data[i][j] << "\n";
+				count = 0;
+			} else if (i == numRows - 1 && j == numCols - 1) {
+				outFile << data[i][j];
+			} else {
+				outFile << data[i][j] << " ";
+			}
 		}
 	}
 }

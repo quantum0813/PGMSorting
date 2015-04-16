@@ -17,21 +17,23 @@ int main() {
 	header.numRows = image.getNumRows();
 
 	// Test - kind of a cool effect
-	for (int i = 0; i < header.numCols * header.numRows; i++) {
-		if (i % 2 == 0) {
-			if ((image.getData()[i] * 2) > header.maxGrayVal)
-				image.getData()[i] = 255;
-			else
-				image.getData()[i] *= 2;
-		} else {
-			if ((image.getData()[i] / 2) < 0)
-				image.getData()[i] = 0;
-			else
-				image.getData()[i] /= 2;
+	for (int i = 0; i < header.numRows; i++) {
+		for (int j = 0; j < header.numCols; j++) {
+			if ((i + j) % 2 == 0) {
+				if ((image.getData()[i][j] * 2) > header.maxGrayVal)
+					image.getData()[i][j] = 255;
+				else
+					image.getData()[i][j] *= 2;
+			} else {
+				if ((image.getData()[i][j] / 2) < 0)
+					image.getData()[i][j] = 0;
+				else
+					image.getData()[i][j] /= 2;
+			}
 		}
 	}
 
-	PGMImage::writePGM("test.pgm", header, image.getData());
+	PGMImage::writePGM("test.pgm", header, image.getData(), image.getNumRows(), image.getNumCols());
 
 	// Test of radix sort
 	int arr[50];
