@@ -74,6 +74,15 @@ int main(int argc, char * argv[]) {
 	Sorting::radixSort(arr, 50);
 	std::clock_t end = std::clock();
 	std::cout << "Radix sort of 50 random numbers took: " << (end - start) / (double)(CLOCKS_PER_SEC / 1000) << "ms" << std::endl;
+
+	// Test of insertion sort
+	for (int i = 0; i < 50; i++)
+		arr[i] = (rand() % 1000) + 1;
+
+	start = std::clock();
+	Sorting::insertionSort(arr, 50);
+	end = std::clock();
+	std::cout << "Insertion sort of 50 random numbers took: " << (end - start) / (double)(CLOCKS_PER_SEC / 1000) << "ms" << std::endl;
 }
 
 bool isNumeric(const char * str) {
