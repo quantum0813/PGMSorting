@@ -14,6 +14,7 @@ class Sorting {
 
 	public:
 		static void radixSort(int * arr, int numElem);
+		static void insertionSort(int * arr, int numElem);
 };
 
 #endif /* SRC_SORTING_HPP */
