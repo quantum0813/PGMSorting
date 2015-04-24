@@ -33,3 +33,22 @@ void Sorting::radixSort(int * arr, int numElem) {
 	for (int exp = 1; max / exp > 0; exp *= 10)
 		countSort(arr, numElem, exp);
 }
+
+void Sorting::insertionSort(int * arr, int numElem) {
+	int i, j;
+
+	for (i = 1; i < numElem; i++) {
+		int selectItem = arr[i];
+		bool inserted = false;
+
+		for (j = i - 1; j >= 0 && inserted != true;) {
+			if (selectItem < arr[j]) {
+				arr[j + 1] = arr[j];
+				j--;
+
+				arr[j + 1] = selectItem;
+			}
+			else inserted = true;
+		}
+	}
+}
