@@ -11,10 +11,14 @@ class Sorting {
 	private:
 		static int arrayMax(int * arr, int numElem);
 		static void countSort(int * arr, int numElem, int exp);
+		static int partition(int * arr, int start, int end);
+		static void quicksort(int * arr, int start, int end);
+		
 
 	public:
 		static void radixSort(int * arr, int numElem);
 		static void insertionSort(int * arr, int numElem);
+		static void quicksort(int * arr, int numElem);
 };
 
 #endif /* SRC_SORTING_HPP */
