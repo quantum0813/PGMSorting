@@ -1,6 +1,8 @@
 #ifndef SRC_SORTING_HPP
 #define SRC_SORTING_HPP
 
+#include <vector>
+
 /**
  * This is not really the best "class" per se. It's basically just a collection
  * of public and private static functions declared in a class to separate them

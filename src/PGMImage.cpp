@@ -112,7 +112,7 @@ void PGMImage::readHeader(ifstream & fileIn) {
 			extractFirstWord(line, word, rest);
 			if (trimLength(word) == 0)
 				continue;
-			mNumRows = atoi(word.c_str());
+			mNumCols = atoi(word.c_str());
 			line = rest;
 			step = 2;
 		}
@@ -120,7 +120,7 @@ void PGMImage::readHeader(ifstream & fileIn) {
 			extractFirstWord(line, word, rest);
 			if (trimLength(word) == 0)
 				continue;
-			mNumCols = atoi(word.c_str());
+			mNumRows = atoi(word.c_str());
 			line = rest;
 			step = 3;
 		}
@@ -182,18 +182,14 @@ void PGMImage::writeHeader(ofstream & outFile, string & filename, PGMHeader & he
 }
 
 void PGMImage::writeData(ofstream & outFile, PGMHeader & header, int ** data, int numRows, int numCols) {
-	int count = 0;
 	for (int i = 0; i < numRows; i++) {
-		for (int j = 0; j < numCols; j++, count++) {
-			// 40 pixel values per line so that we don't have really long lines
-			if (count == 40) {
-				outFile << data[i][j] << "\n";
-				count = 0;
-			} else if (i == numRows - 1 && j == numCols - 1) {
+		for (int j = 0; j < numCols; j++) {
+			 if (i == numRows - 1 && j == numCols - 1) {
 				outFile << data[i][j];
 			} else {
 				outFile << data[i][j] << " ";
 			}
 		}
+		outFile << '\n';
 	}
 }
