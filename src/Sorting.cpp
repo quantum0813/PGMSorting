@@ -52,3 +52,39 @@ void Sorting::insertionSort(int * arr, int numElem) {
 		}
 	}
 }
+
+int Sorting::partition (int * arr, int start, int end)
+{
+    int x = arr[end];    
+    int i = (start - 1);  
+ 
+    for (int j = start; j <= end- 1; j++)
+    {
+        
+        if (arr[j] <= x)
+        {
+            i++;
+            int t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+        }
+    }
+    int temp = arr[i+1];
+    arr[i+1] = arr[end];
+    arr[end] = temp;
+    return (i + 1);
+}
+ 
+void Sorting::quicksort(int * arr, int start, int end)
+{
+    if (start < end)
+    {
+        int pindex = partition(arr, start, end);
+        quicksort(arr, start, pindex - 1);
+        quicksort(arr, pindex + 1, end);
+    }
+}
+
+void Sorting::quicksort(int * arr, int numElem){
+    quicksort(arr, 0, numElem-1);
+}
