@@ -145,8 +145,10 @@ int main(int argc, char * argv[]) {
 
 			switch (alg) {
 				case INSERTION:
+					Sorting::insertionSort(pixels, size);
 					break;
 				case QUICK:
+					Sorting::quicksort(pixels, size);
 					break;
 				case RADIX:
 					Sorting::radixSort(pixels, size);
